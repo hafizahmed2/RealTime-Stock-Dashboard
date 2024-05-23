@@ -7,9 +7,10 @@ module.exports = {
     CREATE TABLE watchlist (
       id SERIAL PRIMARY KEY,
       user_id INT,
-      stock_symbol VARCHAR(10) NOT NULL,
+      stock_id INT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users(id)
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (stock_id) REFERENCES stocks(id)
   );
   `);
   },
