@@ -5,9 +5,8 @@ import cors from "cors";
 
 import UserRouter from "./user/routes";
 import AuthRouter from "./auth/routes";
-
-import { AuthGuard } from "./auth/authenticate";
-import { notFound, errorHandler } from "./middlewares";
+import { errorHandler } from "./middlewares/error.handler";
+import { notFound } from "./middlewares/not.found";
 
 const app = express();
 
