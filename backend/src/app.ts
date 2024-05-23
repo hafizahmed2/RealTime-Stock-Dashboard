@@ -5,9 +5,8 @@ import cors from "cors";
 
 import * as middlewares from "./middlewares";
 import api from "./api";
+import UserRouter from "./user/routes";
 import MessageResponse from "./interfaces/MessageResponse";
-
-require("dotenv").config();
 
 const app = express();
 
@@ -23,6 +22,7 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 });
 
 app.use("/api/v1", api);
+app.use("/api/users", UserRouter);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
