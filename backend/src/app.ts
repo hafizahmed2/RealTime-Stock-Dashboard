@@ -3,10 +3,11 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
-import * as middlewares from "./middlewares";
-import api from "./api";
 import UserRouter from "./user/routes";
-import MessageResponse from "./interfaces/MessageResponse";
+import AuthRouter from "./auth/routes";
+
+import { AuthGuard } from "./auth/authenticate";
+import { notFound, errorHandler } from "./middlewares";
 
 const app = express();
 
@@ -15,16 +16,10 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.get<{}, MessageResponse>("/", (req, res) => {
-  res.json({
-    message: "🦄🌈✨👋🌎🌍🌏✨🌈🦄",
-  });
-});
-
-app.use("/api/v1", api);
 app.use("/api/users", UserRouter);
+app.use("/auth", AuthRouter);
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;

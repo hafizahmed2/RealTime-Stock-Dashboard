@@ -70,7 +70,7 @@ export class BaseRepository<T extends Object> {
     return await sequelize.query<T>(
       `select ${this.selectColumnNamesGenerator(columns)} from ${
         this.tableName
-      } where id = ${id}`,
+      } where id = '${id}'`,
       {
         raw: true,
         type: QueryTypes.SELECT,
@@ -79,7 +79,7 @@ export class BaseRepository<T extends Object> {
   }
 
   async deleteById(id: number): Promise<void> {
-    await sequelize.query(`delete from ${this.tableName} where id = ${id}`, {
+    await sequelize.query(`delete from ${this.tableName} where id = '${id}'`, {
       raw: true,
       type: QueryTypes.DELETE,
     });
