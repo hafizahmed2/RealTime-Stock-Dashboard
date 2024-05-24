@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: node:18-alpine
+    working_dir: /src
+    volumes:
+      - ./frontend:/src
+      - /node_modules
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+    environment:
+      - REACT_APP_BASE_API_URL=http://localhost:5000/
+      - REACT_APP_WEBSOCKET_SERVER_URL=ws://localhost:8080
+      - backend
+
+  backend:
+    image: node:18-alpine
+    working_dir: /src
+    volumes:
+      - ./backend:/src
+      - /src/node_modules
+    ports:
+      - "5000:5000"
+      - "8080:8080"
+    command: sh -c "npm install && npm run db:seed && npm run db:migrate && npm run dev"
+    environment:
+      - JWT_SECRET_KEY=JWTSUPERSECRET
+      - DATABASE_CONNECTION_URL=postgres://dev:stocks@postgres:5432/stock_app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: stocks
+      POSTGRES_DB: stock_app
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:

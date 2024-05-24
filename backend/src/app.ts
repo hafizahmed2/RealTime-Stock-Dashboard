@@ -1,30 +1,31 @@
-import express from 'express';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import cors from 'cors';
+import express from "express";
+import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
 
-import * as middlewares from './middlewares';
-import api from './api';
-import MessageResponse from './interfaces/MessageResponse';
+import UserRouter from "./user/routes/user.routes";
+import AuthRouter from "./auth/routes/auth.routes";
+import WatchlistRouter from "./watchlist/routes/watchlist.routes";
+import StockRouter from "./stocks/routes/stocks.routes";
 
-require('dotenv').config();
+import { errorHandler } from "./middlewares/error.handler";
+import { notFound } from "./middlewares/not.found";
+import { joiErrorHandler } from "./middlewares/joi.error.handler";
 
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.get<{}, MessageResponse>('/', (req, res) => {
-  res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-  });
-});
+app.use("/users", UserRouter);
+app.use("/watchlist", WatchlistRouter);
+app.use("/stocks", StockRouter);
+app.use("/auth", AuthRouter);
 
-app.use('/api/v1', api);
-
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+app.use(notFound);
+app.use(joiErrorHandler);
+app.use(errorHandler);
 
 export default app;
