@@ -1,7 +1,7 @@
 import { ApiResponse } from "../../common/types/response";
 import { CreateUserDto } from "../../user/dto/create.user";
 import { UserDto } from "../../user/dto/user";
-import { AuthService, authService } from "../service";
+import { AuthService, authService } from "../service/auth.service";
 
 class AuthController {
   protected authService: AuthService;

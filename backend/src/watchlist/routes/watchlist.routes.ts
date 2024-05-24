@@ -9,14 +9,23 @@ const validator = JoiValidator.createValidator({});
 
 const router: Router = express.Router();
 
-// router.use(AuthGuard);
+router.use(AuthGuard);
+
+router.get("/", async (req: Request, res: Response) => {
+  const response = await watchlistController.findAllByUserId(req.user?.id!);
+  res.json(response);
+});
 
 router.put(
   "/",
   validator.body(AddWatchListDtoSchema),
   async (req: Request, res: Response) => {
     const { stockId } = req.body;
-    const response = await watchlistController.addToWatchList({ stockId }, 1);
+
+    const response = await watchlistController.addToWatchList(
+      { stockId },
+      req.user?.id!
+    );
     res.json(response);
   }
 );
@@ -28,7 +37,7 @@ router.delete(
     const { stockId } = req.body;
     const response = await watchlistController.removeFromWatchList(
       { stockId },
-      1
+      req.user?.id!
     );
     res.json(response);
   }

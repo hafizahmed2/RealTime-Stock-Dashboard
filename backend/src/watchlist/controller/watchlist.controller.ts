@@ -5,6 +5,7 @@ import {
   WatchListService,
   watchlistService,
 } from "../service/watchlist.service";
+import { WatchlistEntityType } from "../types/WatchlistEntityType";
 
 class WatchlistController {
   protected watchlistService: WatchListService;
@@ -16,16 +17,23 @@ class WatchlistController {
     data: AddWatchlistDto,
     userId: number
   ): Promise<ApiResponse<string>> {
-    await this.watchlistService.add(userId, data.stockId);
-    return { success: true, data: "" };
+    return await this.watchlistService.add(userId, data.stockId);
   }
 
   async removeFromWatchList(
     data: RemoveWatchlistDto,
     userId: number
   ): Promise<ApiResponse<string>> {
-    await this.watchlistService.add(userId, data.stockId);
-    return { success: true, data: "" };
+    return await this.watchlistService.remove(userId, data.stockId);
+  }
+
+  async findAllByUserId(
+    userId: number
+  ): Promise<ApiResponse<WatchlistEntityType[]>> {
+    return {
+      success: true,
+      data: await this.watchlistService.findAllByUserId(userId),
+    };
   }
 }
 

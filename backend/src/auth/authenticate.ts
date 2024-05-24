@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyAccessToken } from "./jwt";
+import { UserEntityType } from "../user/types/UsersEntityType";
 
 export function AuthGuard(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers["authorization"];
@@ -15,5 +16,8 @@ export function AuthGuard(req: Request, res: Response, next: NextFunction) {
     return res.status(403).json({ error: result.error });
   }
 
+  const { email, id } = result.data as { email: string; id: number };
+  console.log({ email, id });
+  req.user = { email, id };
   next();
 }

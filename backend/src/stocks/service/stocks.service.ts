@@ -1,4 +1,4 @@
-import { StocksRepository, stocksRepo } from "../repository";
+import { StocksRepository, stocksRepo } from "../repository/stocks.repository";
 import { StockEntityType } from "../types/StockEntityType";
 import { StockPriceResponse } from "../types/StockPrice";
 
@@ -23,6 +23,7 @@ export class StockService {
       return {
         price: Math.random() * 100,
         symbol: item.symbol,
+        stockId: item.id!,
       } as StockPriceResponse;
     });
   }

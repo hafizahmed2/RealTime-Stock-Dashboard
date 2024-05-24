@@ -1,7 +1,10 @@
 import { JWT_SECRET_KEY } from "../../constants/environment.variables";
 import { CreateUserDto } from "../../user/dto/create.user";
 import { UserDto } from "../../user/dto/user";
-import { UsersRepo, UsersRepository } from "../../user/repository";
+import {
+  UsersRepo,
+  UsersRepository,
+} from "../../user/repository/user.repository";
 import bcrypt from "bcrypt";
 import { generateAccessToken } from "../jwt";
 import { ApiResponse } from "../../common/types/response";
@@ -21,11 +24,14 @@ export class AuthService {
 
     if (!match) return { success: false, error: "Invalid Credentials" };
 
-    return { success: true, data: generateAccessToken(data.email) };
+    return {
+      success: true,
+      data: generateAccessToken(user[0].id!, data.email),
+    };
   }
 
   async register(data: CreateUserDto): Promise<ApiResponse<string>> {
-    const user = await this.usersRepo.findByEmail(data.email);
+    let user = await this.usersRepo.findByEmail(data.email);
     if (user.length) return { success: false, error: "User already exists" };
 
     await this.usersRepo.create({
@@ -35,7 +41,12 @@ export class AuthService {
         `$2b$10$K6HMRzRtuJwUnF8cCvMt8e`
       ),
     });
-    return { success: true, data: generateAccessToken(data.email) };
+
+    user = await this.usersRepo.findByEmail(data.email);
+    return {
+      success: true,
+      data: generateAccessToken(user[0].id!, data.email),
+    };
   }
 }
 

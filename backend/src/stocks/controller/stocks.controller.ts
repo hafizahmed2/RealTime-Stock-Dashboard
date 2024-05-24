@@ -1,5 +1,6 @@
-import { StockService, stockService } from "../service";
+import { StockService, stockService } from "../service/stocks.service";
 import { StockEntityType } from "../types/StockEntityType";
+import { StockPriceResponse } from "../types/StockPrice";
 
 class StockController {
   protected stockService: StockService;
@@ -7,8 +8,8 @@ class StockController {
     this.stockService = repo;
   }
 
-  async getStocks(): Promise<StockEntityType[]> {
-    return await this.stockService.getStocks();
+  async getStocks(): Promise<StockPriceResponse[]> {
+    return await this.stockService.fetchStockPrices();
   }
 }
 

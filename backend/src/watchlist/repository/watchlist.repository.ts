@@ -26,7 +26,23 @@ export class WatchlistRepository extends BaseRepository<WatchlistEntityType> {
     return await sequelize.query<WatchlistEntityType>(
       `select ${this.selectColumnNamesGenerator(columns)} from ${
         this.tableName
-      } where user_id = '${userId}'`,
+      } where user_id = ${userId}`,
+      {
+        raw: true,
+        type: QueryTypes.SELECT,
+        logging: true,
+      }
+    );
+  }
+
+  async findBySymbol(
+    userId: number,
+    stockId: number
+  ): Promise<WatchlistEntityType[]> {
+    return await sequelize.query<WatchlistEntityType>(
+      `select * from ${
+        this.tableName
+      } where user_id = ${userId} AND stock_id = ${stockId}`,
       {
         raw: true,
         type: QueryTypes.SELECT,

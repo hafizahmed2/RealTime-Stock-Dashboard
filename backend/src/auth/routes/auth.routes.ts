@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import JoiValidator from "express-joi-validation";
 import { CreateUserDtoSchema } from "../../user/dto/create.user";
-import { userController } from "../controller";
+import { userController } from "../controller/auth.controller";
 
 const validator = JoiValidator.createValidator({});
 

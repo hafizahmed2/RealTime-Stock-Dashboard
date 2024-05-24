@@ -3,9 +3,10 @@ import jwt from "jsonwebtoken";
 import { isError } from "../utils/type.guards";
 import { UserDto } from "../user/dto/user";
 
-export function generateAccessToken(email: string) {
+export function generateAccessToken(id: number, email: string) {
   const payload = {
-    email: email,
+    email,
+    id,
   };
 
   const secret = JWT_SECRET_KEY;
