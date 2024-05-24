@@ -11,7 +11,7 @@
     "lint": "eslint --fix src test",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "migrate": "sequelize-cli db:migrate",
+    "db:migrate": "sequelize-cli db:migrate",
     "db:reset": "sequelize db:migrate:undo:all",
     "db:seed": "sequelize-cli db:seed:all"
   },

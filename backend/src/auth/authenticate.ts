@@ -17,7 +17,6 @@ export function AuthGuard(req: Request, res: Response, next: NextFunction) {
   }
 
   const { email, id } = result.data as { email: string; id: number };
-  console.log({ email, id });
   req.user = { email, id };
   next();
 }

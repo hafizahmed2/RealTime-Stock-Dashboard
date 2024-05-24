@@ -11,8 +11,6 @@ const StockListItem: FC<StockPriceResponse> = ({ symbol, price, stockId }) => {
 
   const { watchlist, removeFromWatch, addToWatch } = useWatchlist();
 
-  console.log(watchlist);
-
   let watchlistButton;
 
   if (!accessToken)
